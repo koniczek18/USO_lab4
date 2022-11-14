@@ -46,7 +46,7 @@ def zadanie2(active):
     if active:
         # objective function: x^4-4*x^3-2*x^2+12*x+9 -> min
         # constrain x>=0
-        func = lambda x: x ^ 4 - 4 * x ^ 3 - 2 * x ^ 2 + 12 * x + 9
+        func = lambda x: pow(x,4) - 4 * pow(x,3) - 2 * pow(x,2) + 12*x + 9
         cons=({'type': 'ineq', 'fun': lambda x: x})
         lw=[0]
         up=np.inf
@@ -54,8 +54,20 @@ def zadanie2(active):
         print(result.fun)
         #TODO ?????????????????????????????
 
+def model(y,t,a0,a1,a2,a3):
+    return a0+a1*t+a2*pow(t,2)+a3*pow(t,3)
+
+def problem_dyn(a):
+    a0,a1,a2,a3=a
+    t=np.linspace(0,1,101)
+    sol=odeint(model,0,t,args=(a0,a1,a2,a3))
+
+def zadanie3(active):
+    if active:
+        pass
 
 if __name__ == '__main__':
     przyklad(False)
     zadanie1(False)
     zadanie2(True)
+    zadanie3(False)
