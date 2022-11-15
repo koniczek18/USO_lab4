@@ -13,7 +13,7 @@ def przyklad(active):
         # constrain 4: 12x - 3y <= 6  ->  -12x +3y >= -6
         # constrain 5: 2x + y >= -2
         # DEFINITION: x[0]=x, x[1]=y
-        func = lambda x: 2 * x[0] - 3 * x[1]
+        func = lambda x: -2 * x[0] + 3 * x[1]
         cons = ({'type': 'ineq', 'fun': lambda x: -x[0] - 2 * x[1] + 3.999},
                 {'type': 'ineq', 'fun': lambda x: 1 / 2 * x[0] - x[1] - 4},
                 {'type': 'ineq', 'fun': lambda x: -12 * x[0] + 3 * x[1] + 6},
@@ -21,7 +21,9 @@ def przyklad(active):
         bnds = ((None, None), (None, None))
         result = scipy.optimize.minimize(func, (0, 0), method='SLSQP', bounds=bnds,
                                          constraints=cons)
-        print(result.fun)
+        print('Przyklad')
+        print('x',result.x[0])
+        print('y',result.x[1])
 
 
 def zadanie1(active):
@@ -31,15 +33,17 @@ def zadanie1(active):
         # DEFINITION: x[0]=x, x[1]=y
         # 1st constrain: -y+2x<=4  -> -2x+y>=-4
         # 2rd constrain: 4x+y>=-2
-        # 3rd constrain: x+y<3 -> x+y <=2.999
-        func = lambda x: 0 * x[0] - x[1]
+        # 3rd constrain: x+y<3 -> -x-y>=-2.999
+        func = lambda x: 0 * x[0] + x[1]
         cons = ({'type': 'ineq', 'fun': lambda x: -2 * x[0] + x[1] + 4},
                 {'type': 'ineq', 'fun': lambda x: 4 * x[0] + x[1] + 2},
-                {'type': 'ineq', 'fun': lambda x: x[0] + x[1] - 2.999})
+                {'type': 'ineq', 'fun': lambda x: -(x[0] + x[1] - 2.999)})
         bnds = ((None, None), (None, None))
         result = scipy.optimize.minimize(func, (0, 0), method='SLSQP', bounds=bnds,
                                          constraints=cons)
-        print(result.fun)
+        print('Zadanie1')
+        print('x',result.x[0])
+        print('y',result.x[1])
 
 
 def zadanie2(active):
@@ -48,7 +52,7 @@ def zadanie2(active):
         # constrain x>=0
         func = lambda x: pow(x,4) - 4 * pow(x,3) - 2 * pow(x,2) + 12*x + 9
         cons=({'type': 'ineq', 'fun': lambda x: x})
-        lw=[0]
+        lw=np.array([0])
         up=np.inf
         result=scipy.optimize.dual_annealing(func,bounds=list(zip(lw,up)))
         print(result.fun)
@@ -67,7 +71,7 @@ def zadanie3(active):
         pass
 
 if __name__ == '__main__':
-    przyklad(False)
-    zadanie1(False)
-    zadanie2(True)
+    przyklad(True)
+    zadanie1(True)
+    zadanie2(False)
     zadanie3(False)
