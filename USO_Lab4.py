@@ -61,7 +61,7 @@ def zadanie2(active):
 
 def model(x,t,a0,a1,a2,a3):
     x=a0+a1*t+a2*pow(t,2)+a3*pow(t,3)
-    dx=a1+a2*t+a3*pow(t,2)
+    dx=a1+2*a2*t+3*a3*pow(t,2)
     J=24*x*t+2*dx*dx-4*t
     return J
 
@@ -69,13 +69,17 @@ def problem_dyn(a):
     a0,a1,a2,a3=a
     t=np.linspace(0,1,101)
     sol=odeint(model,0,t,args=(a0,a1,a2,a3))
+    return sol[-1]
 
 def zadanie3(active):
     if active:
-        cons1=scipy.optimize.LinearConstraint([1,0,0,0],lb=1,ub=1)
-        cons2=scipy.optimize.LinearConstraint([1,1,1,1],lb=3,ub=3)
-        result=scipy.optimize.minimize(problem_dyn,(0,0,0,0),constraints=(cons1,cons2))
-        #TODO help me
+        cons1=scipy.optimize.LinearConstraint([[1,0,0,0],[1,1,1,1]],lb=[1,3],ub=[1,3])
+        result=scipy.optimize.minimize(problem_dyn,x0=(50,50,50,50),constraints=cons1,method='trust-constr')
+        print(result.fun)
+        print(result.x)
+        print(result.message)
+        #TODONE god help me
+        #cheers Łukasz :>
 
 if __name__ == '__main__':
     przyklad(False)
