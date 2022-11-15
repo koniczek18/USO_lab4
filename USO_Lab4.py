@@ -39,11 +39,12 @@ def zadanie1(active):
                 {'type': 'ineq', 'fun': lambda x: 4 * x[0] + x[1] + 2},
                 {'type': 'ineq', 'fun': lambda x: -(x[0] + x[1] - 2.999)})
         bnds = ((None, None), (None, None))
-        result = scipy.optimize.minimize(func, (0, 0), method='SLSQP', bounds=bnds,
+        result1 = scipy.optimize.minimize(func, (0, 0), method='SLSQP', bounds=bnds,
                                          constraints=cons)
+
         print('Zadanie1')
-        print('x',result.x[0])
-        print('y',result.x[1])
+        print('x',result1.x[0])
+        print('y',result1.x[1])
 
 
 def zadanie2(active):
@@ -52,13 +53,17 @@ def zadanie2(active):
         # constrain x>=0
         func = lambda x: pow(x,4) - 4 * pow(x,3) - 2 * pow(x,2) + 12*x + 9
         cons=({'type': 'ineq', 'fun': lambda x: x})
-        lw=0
-        up=100000
-        result = scipy.optimize.minimize(func,(2), bounds=[(0,100000)])
-        print(result.x)
+        result1 = scipy.optimize.minimize(func,(2), bounds=[(0,100000)])
+        print(result1.x)
+        #lw=[0]*10
+        #up=np.inf
+        #result2=scipy.optimize.dual_annealing(func,bounds=scipy.optimize.Bounds([0],[np.inf]))
 
-def model(y,t,a0,a1,a2,a3):
-    return a0+a1*t+a2*pow(t,2)+a3*pow(t,3)
+def model(x,t,a0,a1,a2,a3):
+    x=a0+a1*t+a2*pow(t,2)+a3*pow(t,3)
+    dx=a1+a2*t+a3*pow(t,2)
+    J=24*x*t+2*dx*dx-4*t
+    return J
 
 def problem_dyn(a):
     a0,a1,a2,a3=a
@@ -67,10 +72,13 @@ def problem_dyn(a):
 
 def zadanie3(active):
     if active:
-        pass
+        cons1=scipy.optimize.LinearConstraint([1,0,0,0],lb=1,ub=1)
+        cons2=scipy.optimize.LinearConstraint([1,1,1,1],lb=3,ub=3)
+        result=scipy.optimize.minimize(problem_dyn,(0,0,0,0),constraints=(cons1,cons2))
+        #TODO help me
 
 if __name__ == '__main__':
     przyklad(False)
     zadanie1(False)
-    zadanie2(True)
-    zadanie3(False)
+    zadanie2(False)
+    zadanie3(True)
