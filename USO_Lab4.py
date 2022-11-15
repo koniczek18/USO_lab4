@@ -78,7 +78,7 @@ def zadanie3(active):
         print(result.fun)
         print(result.x)
         print(result.message)
-        #TODONE god help me
+        #TODONE god helped me
         #cheers Łukasz :>
 
 if __name__ == '__main__':
