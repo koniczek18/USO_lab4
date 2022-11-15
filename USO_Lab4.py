@@ -52,11 +52,10 @@ def zadanie2(active):
         # constrain x>=0
         func = lambda x: pow(x,4) - 4 * pow(x,3) - 2 * pow(x,2) + 12*x + 9
         cons=({'type': 'ineq', 'fun': lambda x: x})
-        lw=np.array([0])
-        up=np.inf
-        result=scipy.optimize.dual_annealing(func,bounds=list(zip(lw,up)))
-        print(result.fun)
-        #TODO ?????????????????????????????
+        lw=0
+        up=100000
+        result = scipy.optimize.minimize(func,(2), bounds=[(0,100000)])
+        print(result.x)
 
 def model(y,t,a0,a1,a2,a3):
     return a0+a1*t+a2*pow(t,2)+a3*pow(t,3)
@@ -71,7 +70,7 @@ def zadanie3(active):
         pass
 
 if __name__ == '__main__':
-    przyklad(True)
-    zadanie1(True)
-    zadanie2(False)
+    przyklad(False)
+    zadanie1(False)
+    zadanie2(True)
     zadanie3(False)
